@@ -1,0 +1,39 @@
+28/Dec/2016
+
+MongoIndexing /// Robomongo
+1)
+ for(var i=1; i<=10000; i++){
+    
+     db.getCollection('test_col').insert({"my_id":i,"name":"harjeet","Array":["First","Second","Third","Fourth"]})
+    
+    }
+
+2)
+ var t1 = new Date().valueOf();
+
+// db.getCollection('test_col').find({"my_id":10000})
+// 
+// db.getCollection('test_col').find({"_id":ObjectId("5864b9b33e1b04b0ba58e1e9")})
+// 
+// db.getCollection('test_col').find({"Array":"Last"})
+
+db.getCollection('test_col').find({ $and: [ { "my_id":10000 }, { Array: "Last1" } ] } )
+
+// db.getCollection('test_col').find({ $and: [ { "Array":"First" }, { "Array2": "Sixth" } ] } )
+// 
+var t2 = new Date().valueOf();
+
+
+print(t2-t1);
+
+3)
+db.test_col.getIndexes();
+db.test_col.dropIndex("Multikey_Comp")
+    
+db.getCollection('test_col').createIndex({"my_id":1},{"name":"Single_Key"})
+
+db.getCollection('test_col').createIndex({"Array":1},{"name":"Multikey_single"})
+
+db.getCollection('test_col').createIndex({"Array":1,"my_id":-1},{"name":"Multikey_Comp"})
+
+db.getCollection('test_col').createIndex({"Array2":1,"Array":1},{"name":"Multikey_CompTwoArray"})
